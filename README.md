@@ -1,1 +1,1 @@
-# expo-lecture-feb-2022
+# expo-lesson-feb-2022
