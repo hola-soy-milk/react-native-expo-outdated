@@ -120,3 +120,39 @@ const styles = StyleSheet.create({
 ```
 
 Let's integrate it into our App, replacing our `<Text>` element, and with the label prop `"Kind Words"`.
+
+## ✨ Integrating custom fonts
+
+We'll be integrating the Google [Pacifico Font](https://fonts.google.com/specimen/Pacifico). 
+
+Let's do this using expo's packages:
+
+    expo install @expo-google-fonts/pacifico expo-font expo-app-loading
+    
+Let's now integrate them into our header:
+
+```javascript
+import AppLoading from "expo-app-loading";
+import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+
+export default function Header(props) {
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <Text style={styles.label}>{props.label}</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+}
+```
+
+Let's now set the label's text to be `"Pacifico_400Regular"`.
+
