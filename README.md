@@ -156,3 +156,25 @@ export default function Header(props) {
 
 Let's now set the label's text to be `"Pacifico_400Regular"`.
 
+## 🚴 Let's list our posts
+
+We'll be using [FlatList](https://reactnative.dev/docs/flatlist)
+
+# Flat list code in app
+
+Then let's define and style our post item component
+
+./components/PostItem.js
+
+Add the cardBorder Color to constants
+
+Create list of static posts
+
+```javascript
+const posts = [
+    {name: "Ramon", handle: "@hola_soy_milk", body: "You're awesome!"},
+    {name: "Pearl", handle: "@punk_rock_swords", body: "Affluent!"},
+    {name: "Garnet", handle: "@stronger_than_u", body: "An experience!"},
+]
+```
+
