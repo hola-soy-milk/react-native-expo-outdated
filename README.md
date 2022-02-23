@@ -172,9 +172,9 @@ Create list of static posts
 
 ```javascript
 const posts = [
-    {name: "Ramon", handle: "@hola_soy_milk", body: "You're awesome!"},
-    {name: "Pearl", handle: "@punk_rock_swords", body: "Affluent!"},
-    {name: "Garnet", handle: "@stronger_than_u", body: "An experience!"},
+    {name: "Ramon", handle: "@hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
+    {name: "Pearl", handle: "@punk_rock_swords", body: "Affluent!", createdAt: new Date()},
+    {name: "Garnet", handle: "@stronger_than_u", body: "An experience!", createdAt: new Date()},
 ]
 ```
 
