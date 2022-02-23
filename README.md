@@ -158,7 +158,7 @@ Let's now set the label's text to be `"Pacifico_400Regular"`.
 
 ## 🚴 Let's list our posts
 
-We'll be using [FlatList](https://reactnative.dev/docs/flatlist)
+We'll be using [FlatList](https://reactnative.dev/docs/flatlist).
 
 In `App.js`:
 
@@ -190,6 +190,8 @@ list: {
     paddingRight: 30,
   },
 ```
+
+## 🚵 Our individual `PostItem` component
 
 Then let's define and style our post item component. In `./components/PostItem.js`:
 
