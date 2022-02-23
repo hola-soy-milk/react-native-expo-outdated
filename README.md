@@ -268,3 +268,12 @@ Next we'll need a screen to add posts. That's where screens come in.
 
 ## 📱 Screens
 
+- React navigation
+
+## 🏣 Add a post
+
+- Submit callback
+
+## 💾 Save the posts on device
+
+## 🚢 Creating release builds
