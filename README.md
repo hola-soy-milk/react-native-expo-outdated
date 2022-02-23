@@ -270,11 +270,54 @@ Next we'll need a screen to add posts. That's where screens come in.
 
 ## 📱 Screens
 
-- React navigation
+We're gonna create navigable screens with `react-navigation`:
 
-## 🏣 Add a post
+    yarn add @react-navigation/native
+    
+    expo install react-native-screens react-native-safe-area-context
+    
+    yarn add @react-navigation/native-stack
+    
+Let's extract a screen for the `PostListScreen`:
 
-- Submit callback
+Integrate the `PostListScreen` into `App.js`:
+
+```javascript
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="PostList" component={PostListScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+```
+
+## 🏣 Add a `NewPostScreen`
+
+
+Back in `App.js`:
+
+
+```javascript
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="PostList" component={PostListScreen} />
+        <Stack.Screen name="NewPost" component={NewPostScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+```
 
 ## 💾 Save the posts on device
 
