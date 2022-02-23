@@ -160,21 +160,111 @@ Let's now set the label's text to be `"Pacifico_400Regular"`.
 
 We'll be using [FlatList](https://reactnative.dev/docs/flatlist)
 
-# Flat list code in app
+In `App.js`:
 
-Then let's define and style our post item component
+```javascript
+const renderItem = item => <PostList post={item.item} />
 
-./components/PostItem.js
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <StatusBar backgroundColor={colors.cardBackground} translucent={true} style="dark" />
+      <Header label="Kind Words" />
+      <FlatList
+        style={styles.list}
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+    </View>
+  );
+}
+```
 
-Add the cardBorder Color to constants
+To our styles object in the same file, we'll add:
 
-Create list of static posts
+```javascript
+list: {
+    marginTop: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+```
+
+Then let's define and style our post item component. In `./components/PostItem.js`:
+
+```javascript
+import { Text, StyleSheet, View } from 'react-native';
+import {colors} from  '../styles/constants';
+
+export default ({post}) => {
+  const {sender, body, handle, createdAt} = post;
+  return (
+    <View style={styles.card}>
+      <Text>{sender}: {handle}</Text>
+      <Text style={styles.center}>{body}</Text>
+      <Text style={styles.right}>{createdAt.toLocaleDateString()}</Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  right: {
+    textAlign: 'right'
+  },
+  center: {
+    textAlign: 'center'
+  },
+card: {
+    backgroundColor: colors.cardBackground,
+    paddingTop: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingBottom: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    borderRadius: 30,
+    marginBottom: 30,
+    borderColor: colors.cardShadow,
+    borderWidth: 0.5,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderTopRightRadius: 30,
+    textAlign: 'left'
+  }
+});
+```
+
+Add the cardShadow color to constants set to `#bfa2db`.
+
+## 📮 Create list of static posts
+
+In `App.js`:
 
 ```javascript
 const posts = [
-    {name: "Ramon", handle: "@hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
-    {name: "Pearl", handle: "@punk_rock_swords", body: "Affluent!", createdAt: new Date()},
-    {name: "Garnet", handle: "@stronger_than_u", body: "An experience!", createdAt: new Date()},
+    {id: 1, sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
+    {id: 2, sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
+    {id: 3, sender: "Garnet", handle: "stronger_than_u", body: "An experience!", createdAt: new Date()},
 ]
 ```
+
+## ⚛️ React Hooks for posts
+
+Let's replace our `posts` const with `useState`:
+
+```javascript
+  const [posts, setPosts] = useState([
+    {id: 1, sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
+    {id: 2, sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
+    {id: 3, sender: "Garnet", handle: "stronger_than_u", body: "An experience!", createdAt: new Date()},
+  ]);
+```
+
+Next we'll need a screen to add posts. That's where screens come in.
+
+## 📱 Screens
 
