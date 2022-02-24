@@ -1,5 +1,10 @@
 # Let's learn React Native/Expo!
 
+![Screenshot showing Kind Words app with empty list](https://user-images.githubusercontent.com/656318/155584657-9c36c352-e0bb-41c0-9c8b-ba11c0cdd509.png)
+![Screenshot showing Kind Words app with new Post form](https://user-images.githubusercontent.com/656318/155584776-18683ba8-ac28-490d-984e-da040cd5829b.png)
+![Screenshot showing Kind Words app with populated list](https://user-images.githubusercontent.com/656318/155584871-77d2f3f3-a0fb-486d-91c9-d693140071ed.png)
+
+
 ## 🧰 Requirements
 
 - Node.js: Version 12 or higher
