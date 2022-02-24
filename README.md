@@ -8,6 +8,14 @@
 <img src="https://user-images.githubusercontent.com/656318/155584871-77d2f3f3-a0fb-486d-91c9-d693140071ed.png" alt="Screenshot showing Kind Words app with populated list" width="150"/> 
 </div>
 
+## 💜 Hi, I'm Ramón!
+
+I'm on Twitter [@hola_soy_milk](https://twitter.com/hola_soy_milk), if you wanna get in touch!
+
+Developer Relations, developer educator, inclusivity advocate. Over a decade of Software Engineering experience.
+
+Originally from 🇨🇱.
+
 ## 🧰 Requirements
 
 - Node.js: Version 12 or higher
