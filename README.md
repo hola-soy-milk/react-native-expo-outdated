@@ -1,4 +1,4 @@
-# expo-lesson-feb-2022
+# Let's learn React Native/Expo!
 
 ## 🧰 Requirements
 
@@ -293,8 +293,6 @@ import { StatusBar } from 'expo-status-bar';
 import Header from '../Header';
 import { StyleSheet, View } from "react-native";
 export default () => {
-
-
   const [posts, setPosts] = useState([
     {sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
     {sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
@@ -312,7 +310,7 @@ export default () => {
         style={styles.list}
         data={posts}
         renderItem={renderItem}
-        keyExtractor={(item) => item.createdAt}
+        keyExtractor={(item) => item.body}
       />
     </View>
   );
@@ -352,9 +350,146 @@ export default function App() {
 
 ## 🏣 Add a `NewPostScreen`
 
+Let's add a navigation to the new post screen:
+
+```javascript
+import {useState} from 'react';
+import { FlatList, Button} from 'react-native';
+import PostList from '../PostItem';
+
+const renderItem = item => <PostList post={item.item} />
+
+import {colors} from  '../..//styles/constants';
+import { StatusBar } from 'expo-status-bar';
+
+import Header from '../Header';
+import { StyleSheet, View } from "react-native";
+export default ({ navigation }) => {
+  const [posts, setPosts] = useState([
+    {
+      sender: "Ramon",
+      handle: "hola_soy_milk",
+      body: "You're awesome!",
+      createdAt: new Date(),
+    },
+    {
+      sender: "Pearl",
+      handle: "punk_rock_swords",
+      body: "Affluent!",
+      createdAt: new Date(),
+    },
+    {
+      sender: "Garnet",
+      handle: "stronger_than_u",
+      body: "An experience!",
+      createdAt: new Date(),
+    },
+  ]);
+  const onNewPost = (newPost) => {
+    setPosts([...posts, newPost]);
+  };
+  return (
+    <View style={styles.container}>
+      <StatusBar
+        backgroundColor={colors.cardBackground}
+        translucent={true}
+        style="dark"
+      />
+      <Header label="Kind Words" />
+      <Button title="New Post" onPress={() => navigation.push("NewPost", {onNewPost})} />
+      <FlatList
+        style={styles.list}
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.body}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  list: {
+    marginTop: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  container: {
+    height: "100%",
+    backgroundColor: colors.background,
+  },
+});
+```
+
 Create `./components/screens/NewPostScreen.js`:
 
+```javascript
+import {useState} from 'react';
+import { StyleSheet, View, TextInput, Button } from 'react-native';
+import {colors} from  '../..//styles/constants';
+import { StatusBar } from 'expo-status-bar';
+import Header from '../Header';
 
+export default ({ route, navigation }) => {
+  const [sender, onChangeSender] = useState("");
+  const [body, onChangeBody] = useState("");
+  const [handle, onChangeHandle] = useState("");
+  return (
+    <View style={styles.container}>
+      <StatusBar
+        backgroundColor={colors.cardBackground}
+        translucent={true}
+        style="dark"
+      />
+      <Header label="New Post" />
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeSender}
+        placeholder="Sender"
+        value={sender}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeBody}
+        placeholder="Body"
+        value={body}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeHandle}
+        placeholder="Handle"
+        value={handle}
+      />
+      <Button
+        title="Add"
+        onPress={() => {
+          route.params.onNewPost({
+            sender,
+            handle,
+            body,
+            createdAt: new Date(),
+          })
+          navigation.goBack();
+        }}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    backgroundColor: colors.cardBackground,
+    borderColor: colors.cardShadow,
+    padding: 10,
+  },
+  container: {
+    height: "100%",
+    backgroundColor: colors.background,
+  },
+});
+```
 
 Back in `App.js`:
 
@@ -375,4 +510,74 @@ function App() {
 
 ## 💾 Save the posts on device
 
+Let's use our device's async storage
+
+    yarn add @react-native-async-storage/async-storage
+    
+New file: `./utils/store.js`:
+
+```javascript
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const STORE_KEY = "@kind-words-mobile";
+
+export const savePosts = async (posts) => {
+  await AsyncStorage.setItem(STORE_KEY, JSON.stringify(posts));
+};
+
+export const loadPosts = async () => {
+  const json = await AsyncStorage.getItem(STORE_KEY);
+  if (!json) {
+      return [];
+  }
+  return JSON.parse(json);
+};
+
+export const addPost = async (post) => {
+  const posts = await loadPosts();
+  posts.push(post);
+  await savePosts(posts);
+};
+```
+
+Let's tweak `PostListScreen`:
+
+```javascript
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const STORE_KEY = "@kind-words-mobile";
+
+export const savePosts = async (posts) => {
+  await AsyncStorage.setItem(STORE_KEY, JSON.stringify(posts));
+};
+
+export const loadPosts = async () => {
+  const json = await AsyncStorage.getItem(STORE_KEY);
+  if (!json) {
+      return [];
+  }
+  return JSON.parse(json);
+};
+
+export const addPost = async (post) => {
+  const posts = await loadPosts();
+  posts.push(post);
+  await savePosts(posts);
+};
+```
+
+Small problem! Our dates are now being loaded as strings. Let's fix that in `PostItem`:
+
+```javascript
+<Text style={styles.right}>{new Date(createdAt).toLocaleDateString()}</Text>
+```
+
 ## 🚢 Creating release builds
+
+You'll need an Expo account to proceed. The Wizard will guide you
+
+    npm install -g eas-cli
+    
+    eas build -p ios
+    
+    eas build -p android
