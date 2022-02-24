@@ -1,5 +1,7 @@
 # Let's learn React Native/Expo!
 
+## 💻 https://bit.ly/rn-2022
+
 <div style="display:flex;">
 <img src="https://user-images.githubusercontent.com/656318/155584657-9c36c352-e0bb-41c0-9c8b-ba11c0cdd509.png" alt="Screenshot showing Kind Words app with empty list" width="150"/> 
 <img src="https://user-images.githubusercontent.com/656318/155584776-18683ba8-ac28-490d-984e-da040cd5829b.png" alt="Screenshot showing Kind Words app with new Post form" width="150"/> 
