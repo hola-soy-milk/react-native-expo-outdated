@@ -20,8 +20,8 @@ Originally from 🇨🇱.
 
 - Node.js: Version 12 or higher
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
-- For iOS: [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
-- For Android: [Android Studio](https://developer.android.com/studio/)
+- For releasing on iOS: [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+- For releasing on Android: [Android Studio](https://developer.android.com/studio/)
 
 ### Setting up Expo
     
@@ -582,7 +582,7 @@ Small problem! Our dates are now being loaded as strings. Let's fix that in `Pos
 <Text style={styles.right}>{new Date(createdAt).toLocaleDateString()}</Text>
 ```
 
-## 🚢 Creating release builds
+## 🚢 Bonus: Creating release builds
 
 You'll need an Expo account to proceed. The Wizard will guide you
 
