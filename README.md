@@ -190,7 +190,7 @@ export default function App() {
         style={styles.list}
         data={posts}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.body}
       />
     </View>
   );
