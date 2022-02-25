@@ -264,9 +264,9 @@ In `App.js`:
 
 ```javascript
 const posts = [
-    {id: 1, sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
-    {id: 2, sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
-    {id: 3, sender: "Garnet", handle: "stronger_than_u", body: "An experience!", createdAt: new Date()},
+    {sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
+    {sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
+    {sender: "Garnet", handle: "stronger_than_u", body: "An experience!", createdAt: new Date()},
 ]
 ```
 
@@ -276,9 +276,9 @@ Let's replace our `posts` const with `useState`:
 
 ```javascript
   const [posts, setPosts] = useState([
-    {id: 1, sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
-    {id: 2, sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
-    {id: 3, sender: "Garnet", handle: "stronger_than_u", body: "An experience!", createdAt: new Date()},
+    {sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
+    {sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
+    {sender: "Garnet", handle: "stronger_than_u", body: "An experience!", createdAt: new Date()},
   ]);
 ```
 
