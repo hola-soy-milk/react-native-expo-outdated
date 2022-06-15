@@ -18,12 +18,7 @@ Originally from 🇨🇱.
 
 ## 🧰 Requirements
 
-- Node.js: Version 12 or higher
-- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
-- For releasing on iOS: [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
-- For releasing on Android: [Android Studio](https://developer.android.com/studio/)
-
-### Setting up Expo
+You should already have everything needed installed, but just in case, you can install Expo and Expo Go with these steps:
     
     npm install --global expo-cli
 
