@@ -72,7 +72,7 @@ Notable options:
 
 Let's set the background color of the splash screen and Android adaptive icon to be `"#f0e5cf"`.
 
-## 🚶 First steps: the `styles` CSS object
+## 🚶 First steps: the `styles` CSS object inside `./App.js`
 
 > 🤔 Notice the naming style of CSS props in React Native
 
