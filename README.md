@@ -130,6 +130,10 @@ const styles = StyleSheet.create({
 });
 ```
 
+From the [docs](https://reactnative.dev/docs/safeareaview):
+
+> The purpose of SafeAreaView is to render content within the safe area boundaries of a device. It is currently only applicable to iOS devices with iOS version 11 or later.
+
 Let's integrate it into our App, replacing our `<Text>` element, and with the label prop `"Kind Words"`.
 
 ## ✨ Integrating custom fonts
