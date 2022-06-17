@@ -26,7 +26,14 @@ On your mobile, install [Expo Go](https://expo.dev/expo-go).
 
 ## ✨ Start up the project
 
-    expo init kind-words-mobile
+First, create a GitHub repository called `kind-words-mobile` and copy the URL to clone the repo.
+
+Then, once you have this, clone it into a new folder in your projects directory and init a new Expo app:
+
+    cd projects
+    git clone <url you copied>
+    cd kind-words-mobile
+    expo init .
     
 We're making a blank app (first option):
 
