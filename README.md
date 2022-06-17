@@ -26,22 +26,18 @@ On your mobile, install [Expo Go](https://expo.dev/expo-go).
 
 ## ✨ Start up the project
 
-First, create a GitHub repository called `kind-words-mobile` and copy the URL to clone the repo.
+First, create a GitHub repository called `kind-words-react-native` and copy the URL to clone the repo.
 
 Then, once you have this, clone it into a new folder in your projects directory and init a new Expo app:
 
     cd projects
     git clone <url you copied>
-    cd kind-words-mobile
+    cd kind-words-react-native
     expo init .
     
 We're making a blank app (first option):
 
 <img width="777" alt="Screenshot of the terminal with the option selected: blank               a minimal app as clean as an empty canvas" src="https://user-images.githubusercontent.com/656318/154859183-367a32fe-ab70-44a2-90b8-810dd2a1c92e.png">
-
-Once it's done, let's run it!
-
-    cd kind-words-mobile
 
 First, let's take a look inside `package.json`:
 
@@ -541,7 +537,7 @@ New file: `./utils/store.js`:
 ```javascript
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const STORE_KEY = "@kind-words-mobile";
+const STORE_KEY = "@kind-words-react-native";
 
 export const savePosts = async (posts) => {
   await AsyncStorage.setItem(STORE_KEY, JSON.stringify(posts));
