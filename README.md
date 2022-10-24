@@ -75,20 +75,22 @@ Notable options:
 
 Let's set the background color of the splash screen and Android adaptive icon to be `"#f0e5cf"`.
 
-## 🚶 First steps: the `styles` CSS object inside `./App.js`
+## 🚶 First steps: the `styles` CSS object inside `./App.tsx`
 
 > 🤔 Notice the naming style of CSS props in React Native
 
 - Change the background color of the main view to `"#f0e5cf"`
-- Change the text color to `"#3f3e41"`
-- Let's extract `./styles/constants.js` that exports a `colors` object with:
+- Change the text color to `"#3f3e41"` by creating a separate `text` object in the styles
+- Let's extract `./styles/constants.ts` that exports a `colors` object with:
 
-```javascript
+```typescript
 export const colors = {
     background: "#f0e5cf",
     text: "#3f3e41"
 }
 ```
+
+Apply those colors!
 
 ## ✍️ The `<Text>` component
 
@@ -98,15 +100,15 @@ Let's change the contents to "Kind Words"! It's just like React.
 
 Let's have a header at the top of our app!
 
-New file: `./components/Header.js`:
+New file: `./components/Header.tsx`:
 
-```javascript
+```typescript
 import React from 'react';
 import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import Constants from 'expo-constants';
 import { colors } from '../styles/constants';
 
-export default props => {
+export default function Header(props) {
     return (
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.container}>
@@ -119,6 +121,7 @@ export default props => {
 const styles = StyleSheet.create({
     safeArea: {
         backgroundColor: colors.cardBackground,
+        width: '100%'
     },
     container: {
         paddingTop: Constants.statusBarHeight + 10,
@@ -127,7 +130,6 @@ const styles = StyleSheet.create({
     label: {
         color: colors.text,
         fontSize: 32,
-        fontWeight: 'bold',
         textAlign: 'center'
     },
 });
@@ -145,11 +147,11 @@ We'll be integrating the Google [Pacifico Font](https://fonts.google.com/specime
 
 Let's do this using expo's packages:
 
-    expo install @expo-google-fonts/pacifico expo-font expo-app-loading
+    expo install @expo-google-fonts/pacifico expo-font
     
-Let's now integrate them into our header:
+Let's now integrate them into our App.tsx:
 
-```javascript
+```typescript
 import AppLoading from "expo-app-loading";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
@@ -172,22 +174,64 @@ export default function Header(props) {
 }
 ```
 
-Let's now set the label's text to be `"Pacifico_400Regular"`.
+Let's now set the label's text to be `"Pacifico_400Regular"` with the `fontFamily` setting:
+
+```typescript
+import React from 'react';
+import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
+import Constants from 'expo-constants';
+import { colors } from '../styles/constants';
+
+export default function Header(props) {
+    return (
+            <SafeAreaView style={styles.safeArea}>
+                <View style={styles.container}>
+                    <Text style={styles.label}>{props.label}</Text>
+                </View>
+            </SafeAreaView>
+        )
+}
+
+const styles = StyleSheet.create({
+    safeArea: {
+        backgroundColor: colors.cardBackground,
+        width: '100%'
+    },
+    container: {
+        paddingTop: Constants.statusBarHeight + 10,
+        paddingBottom: 20,
+    },
+    label: {
+        color: colors.text,
+        fontSize: 32,
+        textAlign: 'center',
+        fontFamily: 'Pacifico_400Regular'
+    },
+});
+
+```
 
 ## 🚴 Let's list our posts
 
 We'll be using [FlatList](https://reactnative.dev/docs/flatlist).
 
-In `App.js`:
+In `App.tsx`:
 
 ```javascript
 const renderItem = item => <PostList post={item.item} />
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={colors.cardBackground} translucent={true} style="dark" />
       <Header label="Kind Words" />
+      <StatusBar style="auto" />
       <FlatList
         style={styles.list}
         data={posts}
@@ -197,6 +241,7 @@ export default function App() {
     </View>
   );
 }
+
 ```
 
 To our styles object in the same file, we'll add:
@@ -206,12 +251,13 @@ list: {
     marginTop: 30,
     paddingLeft: 30,
     paddingRight: 30,
+    width: '100%'
   },
 ```
 
 ## 🚵 Our individual `PostItem` component
 
-Then let's define and style our post item component. In `./components/PostItem.js`:
+Then let's define and style our post item component. In `./components/PostItem.tsx`:
 
 ```javascript
 import { Text, StyleSheet, View } from 'react-native';
@@ -258,11 +304,11 @@ card: {
 });
 ```
 
-Add the cardShadow color to constants set to `#bfa2db`.
+Add the cardShadow color to constants set to `#bfa2db` and cardBackground set to `#f0d9ff`.
 
 ## 📮 Create list of static posts
 
-In `App.js`:
+In `App.tsx`:
 
 ```javascript
 const posts = [
@@ -288,177 +334,97 @@ Next we'll need a screen to add posts. That's where screens come in.
 
 ## 📱 Screens
 
-We're gonna create navigable screens with `react-navigation`:
+We're gonna use the still-in-preview `expo-router` to create navigable screens.
 
-    yarn add @react-navigation/native
-    
-    expo install react-native-screens react-native-safe-area-context
-    
-    yarn add @react-navigation/native-stack
-    
-Let's extract a screen for the `./components/screens/PostListScreen`:
+[Install and set up expo-router](https://expo.github.io/router/docs#getting-started).
 
-```javascript
-import {useState} from 'react';
-import { FlatList } from 'react-native';
-import PostList from '../PostItem';
+Move the contents of `App.tsx` into `./app/index.tsx` (fix the imports!), and make the contents of `App.tsx` the following:
 
-const renderItem = item => <PostList post={item.item} />
+```typescript
+import "@bacons/expo-metro-runtime";
+import "expo-router/entry";
+import { registerRootComponent } from "expo";
+import { ExpoRoot } from "expo-router";
 
-import {colors} from  '../..//styles/constants';
-import { StatusBar } from 'expo-status-bar';
+// Must be exported or Fast Refresh won't update the context
+export function App() {
+  const ctx = require.context("./app");
+  return <ExpoRoot context={ctx} />;
+}
 
-import Header from '../Header';
-import { StyleSheet, View } from "react-native";
-export default () => {
-  const [posts, setPosts] = useState([
-    {sender: "Ramon", handle: "hola_soy_milk", body: "You're awesome!", createdAt: new Date()},
-    {sender: "Pearl", handle: "punk_rock_swords", body: "Affluent!", createdAt: new Date()},
-    {sender: "Garnet", handle: "stronger_than_u", body: "An experience!", createdAt: new Date()},
-  ]);
+registerRootComponent(App);
+```
+
+Change the `main` in `package.json` to:
+
+```typescript
+  "main": "App.tsx",
+```
+
+## 🏣 Add a `newPost` page
+
+Let's add a link to the new post screen:
+
+```typescript
+import { Link } from "expo-router";
+
+// ...
+export default function Page({navigation, route}) {
+  // ...
+  if(route.params?.post) {
+    const {post} = route.params
+    route.params = undefined;
+    setPosts([...posts, post]);
+  }
   return (
     <View style={styles.container}>
-      <StatusBar
-        backgroundColor={colors.cardBackground}
-        translucent={true}
-        style="dark"
-      />
       <Header label="Kind Words" />
+      <StatusBar style="auto" />
       <FlatList
         style={styles.list}
         data={posts}
         renderItem={renderItem}
-        keyExtractor={(item) => item.body}
+        keyExtractor={item => item.body}
       />
+      <Link href={{
+        pathname: "/newPost",
+        }}>New Post</Link>
     </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  list: {
-    marginTop: 30,
-    paddingLeft: 30,
-    paddingRight: 30,
-  },
-  container: {
-    height: "100%",
-    backgroundColor: colors.background,
-  },
-});
-```
-Integrate the `PostListScreen` into `App.js`:
-
-```javascript
-import PostListScreen from './components/screens/PostListScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="PostList" component={PostListScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
   );
 }
 
+
 ```
 
-## 🏣 Add a `NewPostScreen`
+Create `./app/newPost.tsx`:
 
-Let's add a navigation to the new post screen:
-
-```javascript
-import {useState} from 'react';
-import { FlatList, Button} from 'react-native';
-import PostList from '../PostItem';
-
-const renderItem = item => <PostList post={item.item} />
-
-import {colors} from  '../..//styles/constants';
+```typescript
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import Header from '../components/Header'
+import { colors } from '../styles/constants';
+import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
-import Header from '../Header';
-import { StyleSheet, View } from "react-native";
-export default ({ navigation }) => {
-  const [posts, setPosts] = useState([
-    {
-      sender: "Ramon",
-      handle: "hola_soy_milk",
-      body: "You're awesome!",
-      createdAt: new Date(),
-    },
-    {
-      sender: "Pearl",
-      handle: "punk_rock_swords",
-      body: "Affluent!",
-      createdAt: new Date(),
-    },
-    {
-      sender: "Garnet",
-      handle: "stronger_than_u",
-      body: "An experience!",
-      createdAt: new Date(),
-    },
-  ]);
-  const onNewPost = (newPost) => {
-    setPosts([...posts, newPost]);
-  };
-  return (
-    <View style={styles.container}>
-      <StatusBar
-        backgroundColor={colors.cardBackground}
-        translucent={true}
-        style="dark"
-      />
-      <Header label="Kind Words" />
-      <Button title="New Post" onPress={() => navigation.push("NewPost", {onNewPost})} />
-      <FlatList
-        style={styles.list}
-        data={posts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.body}
-      />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  list: {
-    marginTop: 30,
-    paddingLeft: 30,
-    paddingRight: 30,
-  },
-  container: {
-    height: "100%",
-    backgroundColor: colors.background,
-  },
-});
-```
-
-Create `./components/screens/NewPostScreen.js`:
-
-```javascript
-import {useState} from 'react';
-import { StyleSheet, View, TextInput, Button } from 'react-native';
-import {colors} from  '../..//styles/constants';
-import { StatusBar } from 'expo-status-bar';
-import Header from '../Header';
-
-export default ({ route, navigation }) => {
+export default function Page({ navigation }) {
   const [sender, onChangeSender] = useState("");
   const [body, onChangeBody] = useState("");
   const [handle, onChangeHandle] = useState("");
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
+      <Header label="New Post" />
       <StatusBar
         backgroundColor={colors.cardBackground}
         translucent={true}
         style="dark"
       />
-      <Header label="New Post" />
       <TextInput
         style={styles.input}
         onChangeText={onChangeSender}
@@ -480,50 +446,36 @@ export default ({ route, navigation }) => {
       <Button
         title="Add"
         onPress={() => {
-          route.params.onNewPost({
+      navigation.navigate({
+            name: "index",
+            params: { post: {
             sender,
             handle,
             body,
             createdAt: new Date(),
-          })
-          navigation.goBack();
+          } },
+            merge: true,
+          });
         }}
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    backgroundColor: colors.cardBackground,
-    borderColor: colors.cardShadow,
-    padding: 10,
-  },
   container: {
-    height: "100%",
+    flex: 1,
     backgroundColor: colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  list: {
+    marginTop: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
+    width: '100%'
   },
 });
-```
-
-Back in `App.js`:
-
-```javascript
-const Stack = createNativeStackNavigator();
-
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Home">
-        <Stack.Screen name="PostList" component={PostListScreen} />
-        <Stack.Screen name="NewPost" component={NewPostScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
 ```
 
 ## 💾 Save the posts on device
@@ -534,7 +486,7 @@ Let's use our device's async storage
     
 New file: `./utils/store.js`:
 
-```javascript
+```typescript
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const STORE_KEY = "@kind-words-react-native";
@@ -558,24 +510,27 @@ export const addPost = async (post) => {
 };
 ```
 
-Let's tweak `PostListScreen`:
+Let's tweak `index.ts`:
 
 ```javascript
 const [posts, setPosts] = useState([]);
-  useFocusEffect(() => {
+  useEffect(() => {
     loadPosts().then((loadedPosts) => {
       if (loadedPosts) {
         setPosts(loadedPosts);
       }
     });
   });
-  const onNewPost = async (newPost) => {
-    await addPost(newPost);
+    if(route.params?.post) {
+    const {post} = route.params
+    route.params = undefined;
+    await addPost(post);
     const loadedPosts = await loadPosts();
     if (loadedPosts) {
       setPosts(loadedPosts);
     }
   };
+
 ```
 
 Small problem! Our dates are now being loaded as strings. Let's fix that in `PostItem`:
