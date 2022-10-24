@@ -37,7 +37,7 @@ Then, once you have this, clone it into a new folder in your projects directory 
     
 We're making a blank app (first option):
 
-<img width="777" alt="Screenshot of the terminal with the option selected: blank               a minimal app as clean as an empty canvas" src="https://user-images.githubusercontent.com/656318/154859183-367a32fe-ab70-44a2-90b8-810dd2a1c92e.png">
+<img width="773" alt="Screenshot of the terminal with the option selected: blank (TypeScript)  same as blank but with TypeScript configuration" src="https://user-images.githubusercontent.com/656318/197562395-dd921c70-3162-4974-8924-e1f4b08c71d8.png">
 
 First, let's take a look inside `package.json`:
 
