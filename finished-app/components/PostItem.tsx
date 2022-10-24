@@ -5,7 +5,7 @@ export default ({post}) => {
   const {sender, body, handle, createdAt} = post;
   return (
     <View style={styles.card}>
-      <Text>{sender}: @{handle}</Text>
+      <Text>{sender}: {handle}</Text>
       <Text style={styles.center}>{body}</Text>
       <Text style={styles.right}>{new Date(createdAt).toLocaleDateString()}</Text>
     </View>

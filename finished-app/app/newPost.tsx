@@ -1,21 +1,29 @@
-import {useState} from 'react';
-import { StyleSheet, View, TextInput, Button } from 'react-native';
-import {colors} from  '../..//styles/constants';
 import { StatusBar } from 'expo-status-bar';
-import Header from '../Header';
+import { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import Header from '../components/Header'
+import { colors } from '../styles/constants';
+import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
-export default ({ route, navigation }) => {
+export default function Page({ navigation }) {
   const [sender, onChangeSender] = useState("");
   const [body, onChangeBody] = useState("");
   const [handle, onChangeHandle] = useState("");
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
+      <Header label="New Post" />
       <StatusBar
         backgroundColor={colors.cardBackground}
         translucent={true}
         style="dark"
       />
-      <Header label="New Post" />
       <TextInput
         style={styles.input}
         onChangeText={onChangeSender}
@@ -37,30 +45,33 @@ export default ({ route, navigation }) => {
       <Button
         title="Add"
         onPress={() => {
-          route.params.onNewPost({
+      navigation.navigate({
+            name: "index",
+            params: { post: {
             sender,
             handle,
             body,
             createdAt: new Date(),
-          })
-          navigation.goBack();
+          } },
+            merge: true,
+          });
         }}
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    backgroundColor: colors.cardBackground,
-    borderColor: colors.cardShadow,
-    padding: 10,
-  },
   container: {
-    height: "100%",
+    flex: 1,
     backgroundColor: colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  list: {
+    marginTop: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
+    width: '100%'
   },
 });

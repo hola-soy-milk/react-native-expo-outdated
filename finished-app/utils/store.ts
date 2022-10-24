@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const STORE_KEY = "@kind-words-mobile";
+const STORE_KEY = "@kind-words-react-native";
 
 export const savePosts = async (posts) => {
   await AsyncStorage.setItem(STORE_KEY, JSON.stringify(posts));
