@@ -152,7 +152,6 @@ Let's do this using expo's packages:
 Let's now integrate them into our App.tsx:
 
 ```typescript
-import AppLoading from "expo-app-loading";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
 export default function Header(props) {
@@ -161,7 +160,7 @@ export default function Header(props) {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   } else {
     return (
       <SafeAreaView style={styles.safeArea}>
