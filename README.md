@@ -86,7 +86,9 @@ Let's set the background color of the splash screen and Android adaptive icon to
 ```typescript
 export const colors = {
     background: "#f0e5cf",
-    text: "#3f3e41"
+    text: "#3f3e41",
+    cardShadow: "#bfa2db",
+    cardBackground: "#f0d9ff",
 }
 ```
 
