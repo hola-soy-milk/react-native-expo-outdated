@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "kind-words-mobile",
-    "slug": "kind-words-mobile",
+    "name": "kind-words-mobile-fall-2022",
+    "scheme": "kind-words-mobile-fall-2022",
+    "slug": "kind-words-mobile-fall-2022",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-      "scheme": "kind-words",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,16 +19,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ramonh.kind-words"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#f0e5cf"
-      }
+      },
+      "package": "com.hola_soy_milk.kindwordsmobilefall2022"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2c9c1914-3bdd-41fa-b78b-b517bc457117"
+      }
     }
   }
 }

@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import Header from '../components/Header'
 import { colors } from '../styles/constants';
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
-export default function Page({ navigation }) {
-  const [sender, onChangeSender] = useState("");
-  const [body, onChangeBody] = useState("");
-  const [handle, onChangeHandle] = useState("");
+export default function Page({ navigation }: any) {
+  const [sender, onChangeSender] = useState("Ramon");
+  const [body, onChangeBody] = useState("Test");
+  const [handle, onChangeHandle] = useState("Hello");
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
@@ -17,13 +17,16 @@ export default function Page({ navigation }) {
     return null;
   }
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={styles.container}>
       <Header label="New Post" />
       <StatusBar
         backgroundColor={colors.cardBackground}
         translucent={true}
         style="dark"
       />
+      <View style={styles.form}>
       <TextInput
         style={styles.input}
         onChangeText={onChangeSender}
@@ -42,6 +45,7 @@ export default function Page({ navigation }) {
         placeholder="Handle"
         value={handle}
       />
+      </View>
       <Button
         title="Add"
         onPress={() => {
@@ -57,7 +61,7 @@ export default function Page({ navigation }) {
           });
         }}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   list: {
     marginTop: 30,
@@ -74,4 +78,14 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     width: '100%'
   },
+  form: {
+    width: '100%',
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  input: {
+    width: '100%',
+    marginBottom: 10,
+    backgroundColor: colors.cardBackground
+  }
 });
