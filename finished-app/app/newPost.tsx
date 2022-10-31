@@ -5,7 +5,17 @@ import Header from '../components/Header'
 import { colors } from '../styles/constants';
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
-export default function Page({ navigation }: any) {
+type Post = {
+    sender: string,
+    body: string,
+    handle: string,
+    createdAt: Date
+}
+
+export default function Page({ navigation }: { navigation: {
+  navigate: (
+    options: {name: string, params: {post: Post}, merge: boolean}) => void
+}}) {
   const [sender, onChangeSender] = useState("Ramon");
   const [body, onChangeBody] = useState("Test");
   const [handle, onChangeHandle] = useState("Hello");
