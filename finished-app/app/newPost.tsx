@@ -4,18 +4,24 @@ import { StyleSheet, Text, View, Button, TextInput, KeyboardAvoidingView, Platfo
 import Header from '../components/Header'
 import { colors } from '../styles/constants';
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import {
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+
+type NativeStackParams = {
+  index: {post: Post}
+};
 
 type Post = {
-    sender: string,
-    body: string,
-    handle: string,
-    createdAt: Date
+  sender: string,
+  body: string,
+  handle: string,
+  createdAt: Date
 }
 
-export default function Page({ navigation }: { navigation: {
-  navigate: (
-    options: {name: string, params: {post: Post}, merge: boolean}) => void
-}}) {
+export default function Page({
+  navigation,
+}: NativeStackScreenProps<NativeStackParams, 'index'>) {
   const [sender, onChangeSender] = useState("Ramon");
   const [body, onChangeBody] = useState("Test");
   const [handle, onChangeHandle] = useState("Hello");
@@ -27,9 +33,9 @@ export default function Page({ navigation }: { navigation: {
     return null;
   }
   return (
-    <KeyboardAvoidingView 
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-    style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}>
       <Header label="New Post" />
       <StatusBar
         backgroundColor={colors.cardBackground}
@@ -37,36 +43,38 @@ export default function Page({ navigation }: { navigation: {
         style="dark"
       />
       <View style={styles.form}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeSender}
-        placeholder="Sender"
-        value={sender}
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeBody}
-        placeholder="Body"
-        value={body}
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeHandle}
-        placeholder="Handle"
-        value={handle}
-      />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeSender}
+          placeholder="Sender"
+          value={sender}
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeBody}
+          placeholder="Body"
+          value={body}
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeHandle}
+          placeholder="Handle"
+          value={handle}
+        />
       </View>
       <Button
         title="Add"
         onPress={() => {
-      navigation.navigate({
+          navigation.navigate({
             name: "index",
-            params: { post: {
-            sender,
-            handle,
-            body,
-            createdAt: new Date(),
-          } },
+            params: {
+              post: {
+                sender,
+                handle,
+                body,
+                createdAt: new Date(),
+              }
+            },
             merge: true,
           });
         }}

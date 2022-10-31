@@ -5,6 +5,13 @@ import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import { Link } from "expo-router";
 import Header from '../components/Header';
 import PostItem from '../components/PostItem';
+import {
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+
+type NativeStackParams = {
+  index: {post: Post};
+};
 
 type Post = {
     sender: string,
@@ -18,29 +25,36 @@ const renderItem = (item: {item: Post}) => <PostItem post={item.item} />
 import { colors } from '../styles/constants'
 import { addPost, loadPosts } from '../utils/store';
 
-export default function Page({route}: {route: {params?: {post: Post}}}) {
-  let [posts, setPosts] = useState([])
+export default function Page({
+  navigation,
+  route,
+}: NativeStackScreenProps<NativeStackParams, 'index'>) {
+  let [posts, setPosts] = useState<Post[]>([])
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular
   })
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      if(route.params?.post) {
+      const post: Post = route.params?.post;
+        addPost(post).then(() => {
+          loadPosts().then((loadedPosts) => {
+            setPosts(loadedPosts);
+          })
+        })
+    }
+      });
     loadPosts().then((loadedPosts) => {
       setPosts(loadedPosts);
     })
+
+    return unsubscribe;
   }, [posts])
+
 
   if (!fontsLoaded) {
     return null;
-  }
-  if(route.params?.post) {
-    const {post} = route.params
-    route.params = undefined;
-    addPost(post).then(() => {
-      loadPosts().then((loadedPosts) => {
-        setPosts(loadedPosts);
-      })
-    })
   }
   return (
     <View style={styles.container}>
@@ -50,7 +64,7 @@ export default function Page({route}: {route: {params?: {post: Post}}}) {
       style={styles.list}
       data={posts}
       renderItem={renderItem}
-      keyExtractor={(item: Post, index: number ) => item.createdAt.toString()}
+      keyExtractor={(item: Post) => item?.createdAt?.toString()}
       />
       <Link href="/newPost">New Post</Link>
     </View>
