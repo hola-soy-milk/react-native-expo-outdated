@@ -395,9 +395,19 @@ Let's add a link to the new post screen:
 
 ```typescript
 import { Link } from "expo-router";
+import {
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+
+type NativeStackParams = {
+  index: {post: Post};
+};
 
 // ...
-export default function Page({route}: {route: {params?: {post: Post}}}) {
+export default function Page({
+  navigation,
+  route,
+}: NativeStackScreenProps<NativeStackParams, 'index'>) {
   // ...
   if(route.params?.post) {
     const {post} = route.params
@@ -433,11 +443,24 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import Header from '../components/Header'
 import { colors } from '../styles/constants';
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import {
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 
-export default function Page({ navigation }: { navigation: {
-  navigate: (
-    options: {name: string, params: {post: Post}, merge: boolean}) => void
-}}) {
+type NativeStackParams = {
+  index: {post: Post}
+};
+
+type Post = {
+  sender: string,
+  body: string,
+  handle: string,
+  createdAt: Date
+}
+
+export default function Page({
+  navigation,
+}: NativeStackScreenProps<NativeStackParams, 'index'>) {
   const [sender, onChangeSender] = useState("");
   const [body, onChangeBody] = useState("");
   const [handle, onChangeHandle] = useState("");
