@@ -156,7 +156,11 @@ Let's now integrate them into our App.tsx:
 ```typescript
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
-export default function Header(props) {
+type Props = {
+    label: string
+}
+
+export default function Header(props: Props) {
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
@@ -183,7 +187,11 @@ import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import Constants from 'expo-constants';
 import { colors } from '../styles/constants';
 
-export default function Header(props) {
+type Props = {
+    label: string
+}
+
+export default function Header(props: Props) {
     return (
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.container}>
@@ -219,7 +227,14 @@ We'll be using [FlatList](https://reactnative.dev/docs/flatlist).
 In `App.tsx`:
 
 ```javascript
-const renderItem = item => <PostList post={item.item} />
+type Post = {
+    sender: string,
+    body: string,
+    handle: string,
+    createdAt: Date
+}
+
+const renderItem = (item: {item: Post}) => <PostItem post={item.item} />
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -264,7 +279,19 @@ Then let's define and style our post item component. In `./components/PostItem.t
 import { Text, StyleSheet, View } from 'react-native';
 import {colors} from  '../styles/constants';
 
-export default ({post}) => {
+type Post = {
+    sender: string,
+    body: string,
+    handle: string,
+    createdAt: Date
+}
+
+type Props = {
+    post: Post
+}
+
+
+export default function PostItem({post}: Props) {
   const {sender, body, handle, createdAt} = post;
   return (
     <View style={styles.card}>
@@ -370,7 +397,7 @@ Let's add a link to the new post screen:
 import { Link } from "expo-router";
 
 // ...
-export default function Page({navigation, route}) {
+export default function Page({route}: {route: {params?: {post: Post}}}) {
   // ...
   if(route.params?.post) {
     const {post} = route.params
@@ -407,7 +434,10 @@ import Header from '../components/Header'
 import { colors } from '../styles/constants';
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
-export default function Page({ navigation }) {
+export default function Page({ navigation }: { navigation: {
+  navigate: (
+    options: {name: string, params: {post: Post}, merge: boolean}) => void
+}}) {
   const [sender, onChangeSender] = useState("");
   const [body, onChangeBody] = useState("");
   const [handle, onChangeHandle] = useState("");
@@ -485,30 +515,38 @@ Let's use our device's async storage
 
     yarn add @react-native-async-storage/async-storage
     
-New file: `./utils/store.js`:
+New file: `./utils/store.ts`:
 
 ```typescript
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const STORE_KEY = "@kind-words-react-native";
 
-export const savePosts = async (posts) => {
+type Post = {
+  sender: string;
+  body: string;
+  handle: string;
+  createdAt: Date;
+};
+
+export const savePosts = async (posts: Post[]) => {
   await AsyncStorage.setItem(STORE_KEY, JSON.stringify(posts));
 };
 
 export const loadPosts = async () => {
   const json = await AsyncStorage.getItem(STORE_KEY);
   if (!json) {
-      return [];
+    return [];
   }
   return JSON.parse(json);
 };
 
-export const addPost = async (post) => {
+export const addPost = async (post: Post) => {
   const posts = await loadPosts();
   posts.push(post);
   await savePosts(posts);
 };
+
 ```
 
 Let's tweak `index.ts`:
@@ -517,11 +555,9 @@ Let's tweak `index.ts`:
 const [posts, setPosts] = useState([]);
   useEffect(() => {
     loadPosts().then((loadedPosts) => {
-      if (loadedPosts) {
-        setPosts(loadedPosts);
-      }
-    });
-  });
+      setPosts(loadedPosts);
+    })
+  }, [posts])
     if(route.params?.post) {
     const {post} = route.params
     route.params = undefined;
