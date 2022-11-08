@@ -27,6 +27,10 @@ export default function PostItem({ post }: Props) {
           // Avoid using toLocaleDateString or toLocaleString because
           // Android doesn't support
           // https://stackoverflow.com/questions/51399551/why-isnt-tolocaledatestring-working-in-react-native-android
+          //
+          // Hermes also supports the Intl API, so switching to this
+          // via Expo 47 would be another option:
+          // https://hermesengine.dev/docs/intl/
           [
             'Jan',
             'Feb',
