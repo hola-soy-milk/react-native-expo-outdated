@@ -1,15 +1,20 @@
+import { Pacifico_400Regular, useFonts } from '@expo-google-fonts/pacifico';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import Header from '../components/Header'
-import { colors } from '../styles/constants';
-import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import {
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
+import Header from '../components/Header';
+import { colors } from '../styles/constants';
 
 type NativeStackParams = {
-  index: {post: Post}
+  index: {post?: Post} | undefined;
 };
 
 type Post = {
@@ -22,10 +27,10 @@ type Post = {
 export default function Page({
   navigation,
 }: NativeStackScreenProps<NativeStackParams, 'index'>) {
-  const [sender, onChangeSender] = useState("Ramon");
-  const [body, onChangeBody] = useState("Test");
-  const [handle, onChangeHandle] = useState("Hello");
-  let [fontsLoaded] = useFonts({
+  const [sender, setSender] = useState("Ramon");
+  const [body, setBody] = useState("Test");
+  const [handle, setHandle] = useState("Hello");
+  const [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
 
@@ -45,19 +50,19 @@ export default function Page({
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeSender}
+          onChangeText={setSender}
           placeholder="Sender"
           value={sender}
         />
         <TextInput
           style={styles.input}
-          onChangeText={onChangeBody}
+          onChangeText={setBody}
           placeholder="Body"
           value={body}
         />
         <TextInput
           style={styles.input}
-          onChangeText={onChangeHandle}
+          onChangeText={setHandle}
           placeholder="Handle"
           value={handle}
         />
