@@ -32,19 +32,24 @@ export default function Page({
   })
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      if(route.params.post as unknown) {
+    async function loadInitialData() {
+    const loadedPosts = await loadPosts()
+    setPosts(loadedPosts);
+    }
+    loadInitialData().catch(() => {
+      console.error('Failed to load initial data');
+    });
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      if(/* FIXME: temporary */ route.params.post as unknown) {
       const post: Post = route.params.post;
-        addPost(post).then(() => {
-          loadPosts().then((loadedPosts) => {
-            setPosts(loadedPosts);
-          }).catch(() => { /* FIXME: temporary */ })
-        }).catch(() => { /* FIXME: temporary */ })
+      await addPost(post);
+      const loadedPosts = await loadPosts();
+      setPosts(loadedPosts);
     }
       });
-    loadPosts().then((loadedPosts) => {
-      setPosts(loadedPosts);
-    }).catch(() => { /* FIXME: temporary */ })
 
     return unsubscribe;
   }, [posts, navigation, route.params.post])
