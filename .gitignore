@@ -1,14 +1,14 @@
-finished-app/node_modules/
-finished-app/.expo/
-finished-app/dist/
-finished-app/npm-debug.*
-finished-app/*.jks
-finished-app/*.p8
-finished-app/*.p12
-finished-app/*.key
-finished-app/*.mobileprovision
-finished-app/*.orig.*
-finished-app/web-build/
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
 
 
 # macOS
