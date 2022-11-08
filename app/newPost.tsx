@@ -11,17 +11,11 @@ import {
   View,
 } from 'react-native';
 import Header from '../components/Header';
+import { Post } from '../components/PostItem';
 import { colors } from '../styles/constants';
 
 type NativeStackParams = {
   index: { post?: Post } | undefined;
-};
-
-type Post = {
-  sender: string;
-  body: string;
-  handle: string;
-  createdAt: Date;
 };
 
 export default function Page({
@@ -78,7 +72,7 @@ export default function Page({
                 sender,
                 handle,
                 body,
-                createdAt: new Date(),
+                createdAt: new Date().toString(),
               },
             },
             merge: true,

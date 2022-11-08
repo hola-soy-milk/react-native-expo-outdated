@@ -1,13 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Post } from '../components/PostItem';
 
 const STORE_KEY = '@kind-words-react-native';
-
-type Post = {
-  sender: string;
-  body: string;
-  handle: string;
-  createdAt: Date;
-};
 
 export const savePosts = async (posts: Post[]) => {
   await AsyncStorage.setItem(STORE_KEY, JSON.stringify(posts));

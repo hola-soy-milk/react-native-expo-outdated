@@ -5,19 +5,12 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import Header from '../components/Header';
-import PostItem from '../components/PostItem';
+import PostItem, { Post } from '../components/PostItem';
 import { colors } from '../styles/constants';
 import { addPost, loadPosts } from '../utils/store';
 
 type NativeStackParams = {
   index: { post?: Post } | undefined;
-};
-
-type Post = {
-  sender: string;
-  body: string;
-  handle: string;
-  createdAt: Date;
 };
 
 const renderItem = (item: { item: Post }) => <PostItem post={item.item} />;

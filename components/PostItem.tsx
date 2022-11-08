@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../styles/constants';
 
-type Post = {
+export type Post = {
   sender: string;
   body: string;
   handle: string;
-  createdAt: Date;
+  /** Serialized via new Date().toString() to pass via navigation parameters */
+  createdAt: string;
 };
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 
 export default function PostItem({ post }: Props) {
   const { sender, body, handle, createdAt } = post;
+  const createdAtDate = new Date(createdAt);
   return (
     <View style={styles.card}>
       <Text>
@@ -21,7 +23,26 @@ export default function PostItem({ post }: Props) {
       </Text>
       <Text style={styles.center}>{body}</Text>
       <Text style={styles.right}>
-        {new Date(createdAt).toLocaleDateString()}
+        {
+          // Avoid using toLocaleDateString or toLocaleString because
+          // Android doesn't support
+          // https://stackoverflow.com/questions/51399551/why-isnt-tolocaledatestring-working-in-react-native-android
+          [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ][createdAtDate.getMonth()]
+        }{' '}
+        {createdAtDate.getDate()}, {createdAtDate.getFullYear()}
       </Text>
     </View>
   );
