@@ -10,7 +10,7 @@ import { colors } from '../styles/constants';
 import { addPost, loadPosts } from '../utils/store';
 
 type NativeStackParams = {
-  index: {post?: Post};
+  index: {post?: Post} | undefined;
 };
 
 type Post = {
@@ -43,7 +43,7 @@ export default function Page({
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
-      if(route.params.post) {
+      if(route.params?.post) {
       await addPost(route.params.post);
       const loadedPosts = await loadPosts();
       setPosts(loadedPosts);
@@ -51,7 +51,7 @@ export default function Page({
       });
 
     return unsubscribe;
-  }, [posts, navigation, route.params.post])
+  }, [posts, navigation, route.params?.post])
 
 
   if (!fontsLoaded) {
