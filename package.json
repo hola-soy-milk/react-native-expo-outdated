@@ -32,6 +32,7 @@
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
     "@types/react-native": "~0.69.1",
+    "@types/webpack-env": "^1.18.0",
     "@typescript-eslint/eslint-plugin": "5.41.0",
     "@typescript-eslint/parser": "5.41.0",
     "@upleveled/eslint-config-upleveled": "^3.3.8",
