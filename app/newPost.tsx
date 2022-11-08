@@ -14,7 +14,7 @@ import Header from '../components/Header';
 import { colors } from '../styles/constants';
 
 type NativeStackParams = {
-  index: {post: Post}
+  index: {post?: Post}
 };
 
 type Post = {

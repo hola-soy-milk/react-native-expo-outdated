@@ -10,7 +10,7 @@ import { colors } from '../styles/constants';
 import { addPost, loadPosts } from '../utils/store';
 
 type NativeStackParams = {
-  index: {post: Post};
+  index: {post?: Post};
 };
 
 type Post = {
@@ -43,9 +43,8 @@ export default function Page({
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
-      if(/* FIXME: temporary */ route.params.post as unknown) {
-      const post: Post = route.params.post;
-      await addPost(post);
+      if(route.params.post) {
+      await addPost(route.params.post);
       const loadedPosts = await loadPosts();
       setPosts(loadedPosts);
     }
@@ -66,7 +65,7 @@ export default function Page({
       style={styles.list}
       data={posts}
       renderItem={renderItem}
-      keyExtractor={(item: Post) => /* FIXME: temporary */ ((item as any)?.createdAt.toString())}
+      keyExtractor={(item: Post) => item.createdAt.toString()}
       />
       <Link href="/newPost">New Post</Link>
     </View>
