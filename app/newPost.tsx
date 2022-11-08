@@ -14,22 +14,22 @@ import Header from '../components/Header';
 import { colors } from '../styles/constants';
 
 type NativeStackParams = {
-  index: {post?: Post} | undefined;
+  index: { post?: Post } | undefined;
 };
 
 type Post = {
-  sender: string,
-  body: string,
-  handle: string,
-  createdAt: Date
-}
+  sender: string;
+  body: string;
+  handle: string;
+  createdAt: Date;
+};
 
 export default function Page({
   navigation,
 }: NativeStackScreenProps<NativeStackParams, 'index'>) {
-  const [sender, setSender] = useState("Ramon");
-  const [body, setBody] = useState("Test");
-  const [handle, setHandle] = useState("Hello");
+  const [sender, setSender] = useState('Ramon');
+  const [body, setBody] = useState('Test');
+  const [handle, setHandle] = useState('Hello');
   const [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
@@ -39,8 +39,9 @@ export default function Page({
   }
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}>
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <Header label="New Post" />
       <StatusBar
         backgroundColor={colors.cardBackground}
@@ -71,14 +72,14 @@ export default function Page({
         title="Add"
         onPress={() => {
           navigation.navigate({
-            name: "index",
+            name: 'index',
             params: {
               post: {
                 sender,
                 handle,
                 body,
                 createdAt: new Date(),
-              }
+              },
             },
             merge: true,
           });
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingLeft: 30,
     paddingRight: 30,
-    width: '100%'
+    width: '100%',
   },
   form: {
     width: '100%',
@@ -109,6 +110,6 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     marginBottom: 10,
-    backgroundColor: colors.cardBackground
-  }
+    backgroundColor: colors.cardBackground,
+  },
 });

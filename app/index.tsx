@@ -10,49 +10,48 @@ import { colors } from '../styles/constants';
 import { addPost, loadPosts } from '../utils/store';
 
 type NativeStackParams = {
-  index: {post?: Post} | undefined;
+  index: { post?: Post } | undefined;
 };
 
 type Post = {
-    sender: string,
-    body: string,
-    handle: string,
-    createdAt: Date
-}
+  sender: string;
+  body: string;
+  handle: string;
+  createdAt: Date;
+};
 
-const renderItem = (item: {item: Post}) => <PostItem post={item.item} />
+const renderItem = (item: { item: Post }) => <PostItem post={item.item} />;
 
 export default function Page({
   navigation,
   route,
 }: NativeStackScreenProps<NativeStackParams, 'index'>) {
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<Post[]>([]);
   const [fontsLoaded] = useFonts({
-    Pacifico_400Regular
-  })
+    Pacifico_400Regular,
+  });
 
   useEffect(() => {
     async function loadInitialData() {
-    const loadedPosts = await loadPosts()
-    setPosts(loadedPosts);
+      const loadedPosts = await loadPosts();
+      setPosts(loadedPosts);
     }
     loadInitialData().catch(() => {
       console.error('Failed to load initial data');
     });
-  }, [])
+  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
-      if(route.params?.post) {
-      await addPost(route.params.post);
-      const loadedPosts = await loadPosts();
-      setPosts(loadedPosts);
-    }
-      });
+      if (route.params?.post) {
+        await addPost(route.params.post);
+        const loadedPosts = await loadPosts();
+        setPosts(loadedPosts);
+      }
+    });
 
     return unsubscribe;
-  }, [posts, navigation, route.params?.post])
-
+  }, [posts, navigation, route.params?.post]);
 
   if (!fontsLoaded) {
     return null;
@@ -62,10 +61,10 @@ export default function Page({
       <Header label="Kind Words" />
       <StatusBar style="auto" />
       <FlatList
-      style={styles.list}
-      data={posts}
-      renderItem={renderItem}
-      keyExtractor={(item: Post) => item.createdAt.toString()}
+        style={styles.list}
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={(item: Post) => item.createdAt.toString()}
       />
       <Link href="/newPost">New Post</Link>
     </View>
@@ -78,12 +77,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   text: {
-    color: colors.text
+    color: colors.text,
   },
   list: {
     marginTop: 30,
     paddingLeft: 30,
     paddingRight: 30,
-    width: '100%'
+    width: '100%',
   },
 });

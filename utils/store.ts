@@ -1,6 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const STORE_KEY = "@kind-words-react-native";
+const STORE_KEY = '@kind-words-react-native';
 
 type Post = {
   sender: string;
