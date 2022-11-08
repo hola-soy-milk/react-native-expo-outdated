@@ -9,13 +9,14 @@ import PostItem, { Post } from '../components/PostItem';
 import { colors } from '../styles/constants';
 import { addPost, loadPosts } from '../utils/store';
 
-type NativeStackParams = {
+export type NativeStackParams = {
   index: { post?: Post } | undefined;
+  'new-post': undefined;
 };
 
 const renderItem = (item: { item: Post }) => <PostItem post={item.item} />;
 
-export default function Page({
+export default function Index({
   navigation,
   route,
 }: NativeStackScreenProps<NativeStackParams, 'index'>) {
@@ -59,7 +60,7 @@ export default function Page({
         renderItem={renderItem}
         keyExtractor={(item: Post) => item.createdAt.toString()}
       />
-      <Link href="/newPost">New Post</Link>
+      <Link href="/new-post">New Post</Link>
     </View>
   );
 }

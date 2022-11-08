@@ -11,14 +11,10 @@ import {
   View,
 } from 'react-native';
 import Header from '../components/Header';
-import { Post } from '../components/PostItem';
 import { colors } from '../styles/constants';
+import { NativeStackParams } from './';
 
-type NativeStackParams = {
-  index: { post?: Post } | undefined;
-};
-
-export default function Page({
+export default function NewPost({
   navigation,
 }: NativeStackScreenProps<NativeStackParams, 'index'>) {
   const [sender, setSender] = useState('Ramon');
