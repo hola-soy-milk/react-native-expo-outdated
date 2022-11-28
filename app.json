@@ -28,6 +28,7 @@
       "package": "com.hola_soy_milk.kindwordsmobilefall2022"
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
     "extra": {
